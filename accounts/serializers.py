@@ -78,3 +78,9 @@ class PasswordChangeSerializer(serializers.Serializer):
             raise serializers.ValidationError({"new_password": "New password must be different from current password."})
             
         return data
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'first_name', 'last_name', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'email', 'created_at', 'updated_at']

@@ -1,13 +1,17 @@
+from django.shortcuts import render
+
+# Create your views here.
 from rest_framework.views import APIView
 from .models import User
-from .serializers import UserSignupSerializer, OTPVerificationSerializer, UserLoginSerializer, EmailUpdateSerializer, PasswordChangeSerializer
+from .serializers import UserSignupSerializer, OTPVerificationSerializer, UserLoginSerializer, EmailUpdateSerializer, PasswordChangeSerializer, UserProfileSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from .utils.redis_utils import store_user_data, get_user_data, delete_user_data
 from .utils.email_utils import send_otp_email
-from rest_framework.permissions import AllowAny, IsAuthenticated
-
+from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework import generics
+from .permissions import IsOwner
 # Create your views here.
 
 class UserSignupView(APIView):
@@ -80,6 +84,7 @@ class OTPVerificationView(APIView):
         }, status=status.HTTP_201_CREATED)
     
 class test_view(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         return Response({"message": "Hello, World!"}, status=status.HTTP_200_OK)
 
@@ -146,3 +151,16 @@ class ChangePasswordView(APIView):
         return Response({
             'message': 'Password changed successfully.'
         }, status=status.HTTP_200_OK)
+
+class UserList(generics.ListAPIView):
+    serializer_class = UserProfileSerializer
+    queryset = User.objects.all()
+    permission_classes = [IsAdminUser]
+
+class UserDetail(generics.RetrieveUpdateAPIView):
+    """
+    Retrieve or update the authenticated user's profile.
+    """
+    serializer_class = UserProfileSerializer
+    queryset = User.objects.all()
+    permission_classes = [IsOwner]
