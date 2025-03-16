@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # Create your views here.
 from rest_framework.views import APIView
 from .models import User
@@ -91,12 +89,6 @@ class OTPVerificationView(APIView):
             },
             'message': 'User registered successfully'
         }, status=status.HTTP_201_CREATED)
-    
-class test_view(APIView):
-    permission_classes = [AllowAny]
-    def get(self, request):
-        logger.debug("Test view accessed")
-        return Response({"message": "Hello, World!"}, status=status.HTTP_200_OK)
 
 class UserLoginView(APIView):
     permission_classes = [AllowAny]
