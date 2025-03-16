@@ -160,5 +160,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Docker](https://www.docker.com/) for containerization
 
 ---
-
-This README file improves clarity, formatting, and user-friendliness while keeping it professional and concise.
