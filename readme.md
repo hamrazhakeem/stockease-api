@@ -148,10 +148,6 @@ Contributions are welcome! Follow these steps:
    ```
 5. Submit a pull request.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Acknowledgements
 
 - [Django REST Framework](https://www.django-rest-framework.org/) for the powerful API toolkit
