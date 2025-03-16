@@ -30,6 +30,7 @@ stockease/
 │   ├── urls.py                # URL routing for auth endpoints
 │   ├── user_urls.py           # URL routing for user management
 │   └── views.py               # API views for authentication
+|
 ├── inventory/                 # Inventory management
 │   ├── migrations/            # Database migrations for inventory
 │   ├── utils/                 # Utility functions
@@ -43,12 +44,14 @@ stockease/
 │   ├── tests.py               # Unit tests for inventory
 │   ├── urls.py                # URL routing
 │   └── views.py               # API views for inventory
+|
 ├── stockease/                 # Project configuration
 │   ├── __init__.py            # Initialization file
 │   ├── asgi.py                # ASGI configuration
 │   ├── settings.py            # Django settings
 │   ├── urls.py                # Main URL routing
 │   └── wsgi.py                # WSGI configuration
+|
 ├── .dockerignore              # Docker ignore file
 ├── .env                       # Environment variables (not in repo)
 ├── .gitignore                 # Git ignore file
