@@ -10,11 +10,16 @@ StockEase is a powerful and scalable inventory management system built with Djan
 - **Redis Caching:** Improved performance with Redis-based caching.
 - **Comprehensive Testing:** Unit tests for all major functionalities.
 - **Logging:** Detailed logging for monitoring and debugging.
+- **Continuous Integration:** Automated testing and code quality checks using GitHub Actions and SonarCloud.
 
 ## Project Structure
 
 ```
 stockease/
+├── .github/                   # GitHub configuration
+│   └── workflows/             # GitHub Actions workflows
+│       └── ci.yaml            # CI pipeline configuration
+|
 ├── accounts/                  # User authentication and management
 │   ├── migrations/            # Database migrations for accounts
 │   ├── utils/                 # Utility functions
@@ -58,7 +63,8 @@ stockease/
 ├── docker-compose.yml         # Docker Compose configuration
 ├── Dockerfile                 # Docker configuration
 ├── manage.py                  # Django management script
-└── requirements.txt           # Python dependencies
+├── requirements.txt           # Python dependencies
+└── sonar-project.properties   # SonarCloud configuration
 ```
 
 ## Prerequisites
@@ -100,6 +106,9 @@ EMAIL_USE_TLS='your_email_use_tls'
 EMAIL_HOST_USER='your_email@gmail.com'
 EMAIL_HOST_PASSWORD='your_email_password'
 DEFAULT_FROM_EMAIL='your_email@gmail.com'
+
+# Allowed Hosts
+ALLOWED_HOSTS = your_allowed_hosts
 ```
 
 ### 3. Build and Start the Containers
@@ -154,5 +163,7 @@ Contributions are welcome! Follow these steps:
 - [Redis](https://redis.io/) for high-performance caching
 - [PostgreSQL](https://www.postgresql.org/) for a reliable database backend
 - [Docker](https://www.docker.com/) for containerization
+- [GitHub Actions](https://github.com/features/actions) for continuous integration
+- [SonarCloud](https://sonarcloud.io/) for code quality analysis
 
 ---
