@@ -119,10 +119,18 @@ class UserLoginView(APIView):
             # Let DRF handle the exception response
             raise
     
-class UserLogoutView(APIView):    
+class UserLogoutView(APIView):
     def post(self, request):
+        refresh_token = request.data.get('refresh')
+        
+        if not refresh_token:
+            logger.error(f"Logout attempt without refresh token: {request.user.email}")
+            return Response(
+                {"error": "Refresh token is required"}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
         try:
-            refresh_token = request.data.get('refresh')
             token = RefreshToken(refresh_token)
             token.blacklist()
             logger.info(f"User logged out successfully: {request.user.email}")
