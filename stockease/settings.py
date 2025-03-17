@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
@@ -137,6 +137,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
 
+REDIS_URL = os.getenv("REDIS_URL", "redis://stockease_redis:6379")
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -144,7 +146,7 @@ CACHES = {
     },
     'otp_cache': { 
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://red-cvbrag2j1k6c73e19bcg:6379',
+        'LOCATION': REDIS_URL,
         'TIMEOUT': 300,
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
@@ -152,7 +154,7 @@ CACHES = {
     },
     'product_cache': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://stockease_redis:6379/1',
+        'LOCATION': f"{REDIS_URL}/1",
         'TIMEOUT': 3600,  # 1 hour cache timeout
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
