@@ -12,3 +12,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project
 COPY . .
+
+CMD ["sh", "-c", "python manage.py migrate && gunicorn --bind 0.0.0.0:10000 stockease.wsgi:application"]
