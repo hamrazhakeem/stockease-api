@@ -144,7 +144,7 @@ CACHES = {
     },
     'otp_cache': { 
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://stockease_redis:6379/0',
+        'LOCATION': 'redis://red-cvbrag2j1k6c73e19bcg:6379',
         'TIMEOUT': 300,
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
