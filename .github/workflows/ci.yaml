@@ -13,10 +13,10 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DEBUG: True
       REDIS_URL: ${{ secrets.REDIS_URL }}
-      DB_NAME: stockease_db_x4xo
-      DB_USER: stockease_user
-      DB_PASSWORD: PwrGMP9CXXxqAc5dwnxh52egNm0erw8Z
-      DB_HOST: dpg-cvbr29lds78s73anrh40-a
+      DB_NAME: test_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: localhost
       DB_PORT: 5432
       EMAIL_HOST: smtp.gmail.com
       EMAIL_PORT: 587
@@ -36,6 +36,20 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
+      postgres:
+      image: postgres:latest
+      env:
+        POSTGRES_DB: test_db
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+      ports:
+        - 5432:5432
+      options: >-
+        --health-cmd pg_isready
+        --health-interval 10s
+        --health-timeout 5s
+        --health-retries 5
 
     steps:
     - name: Checkout code
