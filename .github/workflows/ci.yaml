@@ -8,6 +8,33 @@ on:
 jobs:
   code-quality:
     runs-on: ubuntu-latest
+    env:
+      ALLOWED_HOSTS: localhost,127.0.0.1
+      SECRET_KEY: your-test-secret-key
+      DEBUG: True
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      DB_NAME: test_db
+      DB_USER: test_user
+      DB_PASSWORD: test_password
+      DB_HOST: localhost
+      DB_PORT: 5432
+      EMAIL_HOST: smtp.gmail.com
+      EMAIL_PORT: 587
+      EMAIL_HOST_USER: test@example.com
+      EMAIL_HOST_PASSWORD: test-password
+      
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -17,12 +44,12 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'  # Specify your Python version here
+        python-version: '3.11'
         
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Assuming you have a requirements.txt file
+        pip install -r requirements.txt
         
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v4
