@@ -11,21 +11,20 @@ jobs:
     env:
       ALLOWED_HOSTS: "*"
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      DEBUG: ${{ secrets.DEBUG }}
+      DEBUG: True
       REDIS_URL: ${{ secrets.REDIS_URL }}
-      DB_NAME: ${{ secrets.DB_NAME }}
-      DB_USER: ${{ secrets.DB_USER }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_PORT: ${{ secrets.DB_PORT }}
-      EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
-      EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
-      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
-      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
-      EMAIL_BACKEND: ${{ secrets.EMAIL_BACKEND }}
-      EMAIL_USE_TLS: ${{ secrets.EMAIL_USE_TLS }}
-      DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
-
+      DB_NAME: stockease_db_x4xo
+      DB_USER: stockease_user
+      DB_PASSWORD: PwrGMP9CXXxqAc5dwnxh52egNm0erw8Z
+      DB_HOST: dpg-cvbr29lds78s73anrh40-a
+      DB_PORT: 5432
+      EMAIL_HOST: smtp.gmail.com
+      EMAIL_PORT: 587
+      EMAIL_HOST_USER: hamraztestt@gmail.com
+      EMAIL_HOST_PASSWORD: lslx qwvt jxcw qbvq
+      EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
+      EMAIL_USE_TLS: True
+      DEFAULT_FROM_EMAIL: hamraztestt@gmail.com
       
     services:
       redis:
