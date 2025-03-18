@@ -5,6 +5,7 @@ on:
     branches:
       - main
 
+
 jobs:
   code-quality:
     runs-on: ubuntu-latest
