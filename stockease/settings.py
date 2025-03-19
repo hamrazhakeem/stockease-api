@@ -243,5 +243,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
+        'scripts': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
     },
 }
