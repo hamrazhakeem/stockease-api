@@ -1,16 +1,32 @@
-app = "stockease"  # Replace with your app name
+# fly.toml app configuration file generated for stockease on 2025-04-04T10:11:37+05:30
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'stockease'
+primary_region = 'bom'
+console_command = '/code/manage.py shell'
 
 [build]
-  # No need to specify a Dockerfile if using mise
-  # You can specify the build command if needed
-  # command = "mise build"
+
+[deploy]
+  release_command = 'python manage.py migrate --noinput'
+
+[env]
+  PORT = '8000'
 
 [http_service]
-  internal_port = 10000
+  internal_port = 8000
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
 
-[env]
-  PORT = "10000"
+[[vm]]
+  memory = '512mb'
+  cpu_kind = 'shared'
+  cpus = 1
+
+[[statics]]
+  guest_path = '/code/static'
+  url_prefix = '/static/'
