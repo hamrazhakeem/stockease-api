@@ -1,0 +1,3 @@
+[settings]
+python_version = "3.11"  # Specify the Python version you want to use
+python_compile = 1        # Force compilation if needed

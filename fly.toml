@@ -1,27 +1,16 @@
-app = "stockease" # Replace with your actual app name if different
-
-kill_signal = "SIGINT"
-kill_timeout = 5
-processes = []
+app = "stockease"  # Replace with your app name
 
 [build]
-  dockerfile = "Dockerfile"
-
-[env]
-  PORT = "10000"
-
-[experimental]
-  auto_rollback = true
+  # No need to specify a Dockerfile if using mise
+  # You can specify the build command if needed
+  # command = "mise build"
 
 [http_service]
-  http_checks = []
   internal_port = 10000
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 0
-  processes = ["app"]
 
-[[statics]]
-  guest_path = "/app/static"
-  url_prefix = "/static/"
+[env]
+  PORT = "10000"
