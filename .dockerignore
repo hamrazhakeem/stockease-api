@@ -15,7 +15,6 @@ __pycache__/
 # Docker files
 Dockerfile
 docker-compose.yml
-.dockerignore
 
 # Database
 db.sqlite3
