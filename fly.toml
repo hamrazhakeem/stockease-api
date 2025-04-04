@@ -1,7 +1,9 @@
 app = "stockease"  # Replace with your app name
 
 [build]
-  dockerfile = "Dockerfile"
+  # No need to specify a Dockerfile if using mise
+  # You can specify the build command if needed
+  # command = "mise build"
 
 [http_service]
   internal_port = 10000
