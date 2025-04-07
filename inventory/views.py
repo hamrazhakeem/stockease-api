@@ -5,6 +5,7 @@ from .serializers import ProductSerializer
 from .utils.cache_utils import get_cache_key, invalidate_product_cache, product_cache
 import json
 import logging
+from .permissions import IsOwner
 
 # Get regular logger for views
 logger = logging.getLogger('inventory')
@@ -18,6 +19,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     ViewSet for viewing and editing products with caching.
     """
     serializer_class = ProductSerializer
+    permission_classes = [IsOwner]
     
     def get_queryset(self):
         """
