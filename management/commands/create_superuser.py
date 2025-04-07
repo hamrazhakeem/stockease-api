@@ -26,4 +26,4 @@ class Command(BaseCommand):
             self.stdout.write("Superuser created successfully.")
         else:
             logger.info('Superuser already exists')
-            self.stdout.write("Superuser already exists.") 
+            self.stdout.write("Superuser already exists.")  
