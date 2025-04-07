@@ -22,6 +22,6 @@ RUN set -ex && \
     rm -rf /root/.cache/
 COPY . /code
 
-EXPOSE 8000
+EXPOSE 10000
 
 CMD ["/bin/sh", "-c", "python manage.py migrate --noinput && python manage.py create_superuser && gunicorn --bind :10000 --workers 2 stockease.wsgi"]
