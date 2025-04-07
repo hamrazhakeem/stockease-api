@@ -24,4 +24,4 @@ COPY . /code
 
 EXPOSE 8000
 
-CMD ["/bin/sh", "-c", "python manage.py migrate --noinput && python manage.py create_superuser && gunicorn --bind :8000 --workers 2 stockease.wsgi"]
+CMD ["/bin/sh", "-c", "python manage.py migrate --noinput && python manage.py create_superuser && gunicorn --bind :10000 --workers 2 stockease.wsgi"]

@@ -154,7 +154,7 @@ CACHES = {
     },
     'product_cache': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': REDIS_URL,
+        'LOCATION': f'{REDIS_URL}/1',
         'TIMEOUT': 3600,  # 1 hour cache timeout
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
