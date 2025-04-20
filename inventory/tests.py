@@ -41,21 +41,29 @@ class ProductAPITestCase(TestCase):
         product_cache.clear()
     
     def test_list_products(self):
-        """Test retrieving a list of products."""
+        """Test retrieving a list of products with pagination."""
         # First request should hit the database
         response = self.client.get(reverse('product-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
         
-        # Check if data is cached
-        cache_key = get_cache_key(self.user.id)
+        # Check pagination structure
+        self.assertIn('results', response.data)
+        self.assertIn('count', response.data)
+        self.assertEqual(response.data['count'], 2)
+        self.assertEqual(len(response.data['results']), 2)
+        
+        # Check if data is cached - include pagination params in cache key
+        page = '1'
+        page_size = '10'  # Default page size
+        cache_key = get_cache_key(self.user.id, list_view=True, page=page, page_size=page_size)
         cached_data = product_cache.get(cache_key)
         self.assertIsNotNone(cached_data)
         
         # Second request should hit the cache
         response = self.client.get(reverse('product-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.data['count'], 2)
+        self.assertEqual(len(response.data['results']), 2)
     
     def test_retrieve_product(self):
         """Test retrieving a single product."""
@@ -115,10 +123,12 @@ class ProductAPITestCase(TestCase):
         
         # Get the cached list
         cached_data = product_cache.get(cache_key)
-        cached_list = json.loads(cached_data)
+        cached_response = json.loads(cached_data)
+        cached_list = cached_response['results']
         
+        # Verify the number of products
+        self.assertEqual(cached_response['count'], 4)
         # Verify the new product is in the cached list
-        self.assertEqual(len(cached_list), 4)
         self.assertTrue(any(item['name'] == 'Another Test Product' for item in cached_list))
     
     def test_update_product(self):

@@ -31,26 +31,39 @@ class ProductViewSet(viewsets.ModelViewSet):
     
     def list(self, request, *args, **kwargs):
         """
-        List all products with caching.
+        List all products with caching and pagination.
         """
         user_id = request.user.id
-        cache_key = get_cache_key(user_id)
+        # Include pagination parameters in cache key
+        page = request.query_params.get('page', '1')
+        page_size = request.query_params.get('page_size', str(getattr(self.paginator, 'page_size', 10)))
+        cache_key = get_cache_key(user_id, list_view=True, page=page, page_size=page_size)
         
         # Try to get from cache
         cached_data = product_cache.get(cache_key)
         
         if cached_data:
             # Return cached data
-            cache_logger.info(f"Cache HIT for list: user {user_id}")
+            cache_logger.info(f"Cache HIT for list: useddr {user_id}, page {page}, page_size {page_size}")
             return Response(json.loads(cached_data))
         
-        # If not in cache, get from database
-        cache_logger.info(f"Cache MISS for list: user {user_id}")
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
+        # If not in cache, get from database with pagination
+        cache_logger.info(f"Cache MISS for list: user {user_id}, page {page}, page_size {page_size}")
+        queryset = self.filter_queryset(self.get_queryset())
         
-        # Cache the result
-        product_cache.set(cache_key, json.dumps(serializer.data))
+        # Apply pagination
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            response_data = self.get_paginated_response(serializer.data).data
+            
+            # Cache the paginated result
+            product_cache.set(cache_key, json.dumps(response_data))
+            logger.info(f"Returning paginated response for page {page}")
+            return Response(response_data)
+            
+        # If pagination is disabled
+        serializer = self.get_serializer(queryset, many=True)
         logger.info("Returning response after retrieving list")
         return Response(serializer.data)
     
@@ -84,25 +97,16 @@ class ProductViewSet(viewsets.ModelViewSet):
     
     def create(self, request, *args, **kwargs):
         """
-        Create a product and update the list cache if it exists.
+        Create a product and invalidate list caches.
         """
         response = super().create(request, *args, **kwargs)
         
         if response.status_code == status.HTTP_201_CREATED:
             user_id = request.user.id
-            cache_key = get_cache_key(user_id)
-            
-            # Check if there's an existing cache for the product list
-            cached_data = product_cache.get(cache_key)
-            
-            if cached_data:
-                # If cache exists, update it by adding the new product
-                product_list = json.loads(cached_data)
-                product_list.append(response.data)
-                
-                cache_logger.info(f"Updating cache for user {user_id}")
-                # Update the cache with the new list
-                product_cache.set(cache_key, json.dumps(product_list))
+            # Simply invalidate all list caches for this user
+            # This is simpler than trying to update all paginated caches
+            invalidate_product_cache(user_id, None)
+            logger.info(f"Invalidated list caches for user {user_id}")
         
         logger.info("Returning response after creating product")
         return response
