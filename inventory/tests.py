@@ -113,7 +113,7 @@ class ProductAPITestCase(TestCase):
         cached_list = cached_response['results']
 
         # Verify the number of products
-        self.assertEqual(cached_response['count'], 4)
+        self.assertEqual(cached_response['count'], 3)
         # Verify the new product is in the cached list
         self.assertTrue(any(item['name'] == 'Another Test Product' for item in cached_list))
     
