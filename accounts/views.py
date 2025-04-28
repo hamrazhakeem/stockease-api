@@ -51,7 +51,7 @@ class OTPVerificationView(APIView):
         
         token = serializer.validated_data['token']
         otp = serializer.validated_data['otp']
-        
+         
         user_data = get_user_data(token)
         
         if not user_data:
